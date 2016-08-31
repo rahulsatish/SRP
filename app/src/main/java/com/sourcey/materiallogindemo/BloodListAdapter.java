@@ -79,7 +79,7 @@ public class BloodListAdapter implements ListAdapter {
         tv.setText(myList.get(i).getHop_name());
         tv1.setText(myList.get(i).getAddress());
         tv2.setText(myList.get(i).getBlood_group());
-        tv3.setText(myList.get(i).getQuantity());
+        tv3.setText(myList.get(i).getQuantity()+"");
         tv4.setText(myList.get(i).getName());
 
         return v;

@@ -11,16 +11,19 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    PrimaryDrawerItem item1;SecondaryDrawerItem item2;
+    PrimaryDrawerItem item1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,11 +34,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         //if you want to update the items at a later time it is recommended to keep it in a variable
 
-        item1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.drawer_item_list);
-
+        item1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.drawer_item_list).withTextColor(getResources().getColor(R.color.colorAccent));
+// Create the AccountHeader
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.cast_album_art_placeholder)
+                .addProfiles(
+                        new ProfileDrawerItem().withName("Mike Penz").withEmail("mikepenz@gmail.com").withIcon(getResources().getDrawable(R.drawable.cast_album_art_placeholder))
+                )
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                        return false;
+                    }
+                })
+                .build();
         //item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.drawer_item_settings);
         Drawer result = new DrawerBuilder()
                 .withActivity(this)
+                .withAccountHeader(headerResult)
                 .addDrawerItems(
                     item1
                 )
@@ -71,8 +88,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        LatLng sydney = new LatLng(-13.01, 80.25);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Malar Hospital"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
